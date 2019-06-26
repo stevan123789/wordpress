@@ -77,47 +77,42 @@ function create_book_taxonomies() {
 ** @$post_id => post ID to add the term.
 */
 
-$Category = "XYZ/ABC/QPR";
-$array_Category = explode('/', $Category);
-			
+	$Category = "XYZ/ABC/QPR";
+	$array_Category = explode('/', $Category);
+
 	$parent_arg = array(
 		'parent' => null
-	);
+	    );
 
-	foreach($array_Category as $key => $ac){
+	    foreach($array_Category as $key => $ac){
 
 		if($key == 0){
-			if (!term_exists((string)$ac, 'product_cat')) {
-				$parent = wp_insert_term((string)$ac, 'product_cat');
-			} else {
-				$parent = get_term_by('slug', (string)$ac, 'product_cat');
-			}
+		    if (!term_exists((string)$ac, 'product_cat')) {
+			$parent = wp_insert_term((string)$ac, 'product_cat');
+		    } else {
+			$parent = get_term_by('slug', (string)$ac, 'product_cat');
+		    }
 		}else{
-
-			if($parent){
-
-				if(is_array($parent)){
-					$parent_arg['parent'] = $parent['term_id'];
-				}else{
-					$parent_arg['parent'] = $parent->term_id;
-				}
+		    if($parent){
+			if(is_array($parent)){
+			    $parent_arg['parent'] = $parent['term_id'];
+			}else{
+			    $parent_arg['parent'] = $parent->term_id;
 			}
-
-			if (!term_exists((string)$ac, 'product_cat')) {
-				$parent = wp_insert_term((string)$ac, 'product_cat', $parent_arg);
-			} else {
-				$parent = get_term_by('slug', (string)$ac, 'product_cat');
-			}
-
+		    }
+		    if (!term_exists((string)$ac, 'product_cat')) {
+			$parent = wp_insert_term((string)$ac, 'product_cat', $parent_arg);
+		    } else {
+			$parent = get_term_by('slug', (string)$ac, 'product_cat');
+		    }
 		}
-	}
-
-	if(is_array($parent)){
+	    }
+	    if(is_array($parent)){
 		$term_id = $parent['term_id'];
-	}else{
+	    }else{
 		$term_id = $parent->term_id;
-	}
-	wp_set_object_terms($post_id, $term_id, 'product_cat');
+	    }
+	    wp_set_object_terms($post_id, $term_id, 'product_cat');
 
 
 
